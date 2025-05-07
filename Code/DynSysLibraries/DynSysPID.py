@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class PID:
-    def __init__(self, setpoint = 0, kp = 0, ki = 0, kd = 0):
+    def __init__(self, setpoint = 0, kp = 0, ki = 0, kd = 0, maxOutput = 5.0):
         self.setpoint = setpoint
         self.kp = kp
         self.kd = kd
@@ -12,10 +12,8 @@ class PID:
         self.prevError = 0
         self.sumError = 0
 
-        # 0.8G's of acceleration is MAX, based on data from https://www.quora.com/How-many-Gs-do-we-feel-driving-a-car
-        # I know some cars (Like the polestar) can easily go above 1G when accelerating hard, and probably a bit more
-        # when braking. I just picked 0.8G's as a start.
-        self.maxGass = 0.8 * 9.81
+        
+        self.maxGass = maxOutput
 
         self.isFirst = True
     
