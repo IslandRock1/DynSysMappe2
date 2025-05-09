@@ -21,7 +21,7 @@ def main():
 
     for ix in range(1, len(t_values)):
         if (ix > (len(t_values) / 2)):
-            frontCar.pidVel.setpoint = 25
+            frontCar.pidVel.setpoint = 250000
         
         frontCar.update()
         car.update(dt, frontCar)
@@ -31,15 +31,15 @@ def main():
         plt.plot(t_values, car.logPos, label = "Back Car Position")
         plt.plot(t_values, frontCar.logPos, label = "Front Car Position")
 
-    if (True):
+    if (False):
         plt.plot(t_values, dist, label = "Distance")
+
+    if (True):
+        plt.plot(t_values, car.logAcc, label = "Back Car Acceleration")
 
     if (False):
         plt.plot(t_values, car.logVel, label = "Back Car Velocity")
         plt.plot(t_values, frontCar.logVel, label = "Front Car Velocity")
-    
-    #plt.plot(t_values, dist, label = "Distance")
-    #plt.plot(t_values, car.logAcc, label = "Acceleration")
 
     plt.legend()
     plt.show()
