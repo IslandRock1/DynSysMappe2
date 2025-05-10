@@ -16,17 +16,16 @@ def main():
     time = 200 # seconds
     frequenzy = 60 # hertz
     t_values = np.linspace(0, time, frequenzy * time + 1)
-    dist = [frontCar._pos - car._pos] * (frequenzy * time + 1)
+    dist = [frontCar.getPos() - car.getPos()] * (frequenzy * time + 1)
 
     dt = (1 / frequenzy)
 
     for ix in range(1, len(t_values)):
-        # frontCar.setVel(15 + 15 * sin(16 * ix / (len(t_values))))
         frontCar.pidVel.setpoint = 15 + 10 * sin(16 * ix / (len(t_values)))
         
-        frontCar.update()
+        frontCar.update(dt)
         car.update(dt, frontCar)
-        dist[ix] = frontCar._pos - car._pos
+        dist[ix] = frontCar.getPos() - car.getPos()
 
     if (False):
         plt.plot(t_values, car.logPos, label = "Back Car Position")

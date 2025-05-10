@@ -17,7 +17,7 @@ class PID:
 
         self.isFirst = True
     
-    def update(self, value, dt = (1 / 60)):
+    def update(self, value, dt):
         error = self.setpoint - value
 
         if (self.isFirst):
