@@ -31,8 +31,8 @@ def main():
         plt.plot(t_values, car.logPos, label = "Back Car Position")
         plt.plot(t_values, frontCar.logPos, label = "Front Car Position")
 
-    if (False):
-        plt.plot(t_values, dist, label = "Distance")
+    if (True):
+        plt.plot(t_values, np.array(dist) / 10.0, label = "Distance div 10")
 
     if (True):
         plt.plot(t_values, np.array(car.logAcc), label = "Back Car Acceleration")
