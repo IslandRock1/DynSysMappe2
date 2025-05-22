@@ -4,10 +4,10 @@ from DynSysLibraries.DynSysPID import PID
 
 class Car:
     def __init__(self, targetVelocity, targetDistance = 100):
-        self._state = np.matrix([[0.0], [0.0]])
+        self._state = np.matrix([[0.0], [0.0]]) # Position and Velocity
         self._acc = 0.0
 
-        self.pidVel = PID(targetVelocity, 0.2, 0, 0, 1.0)
+        self.pidVel = PID(targetVelocity, 0.2, 0, 0.0, 1.0)
         self.pidDist = PID(targetDistance, 0.2, 0, 0.5, 1.0)
 
         self.logPos = [self.getPos()]
@@ -45,7 +45,7 @@ class Car:
         self._acc = acc
         self.logAcc[-1] = acc
 
-    def _regulator(self, dt, nextCar: "Car"):
+    def _regulator(self, dt, nextCar: "(Car | None)"):
         if (nextCar):
             dist = nextCar.getPos() - self.getPos()
             outputDist = -self.pidDist.update(dist, dt)
@@ -54,7 +54,7 @@ class Car:
         else:
             output = self.pidVel.update(self.getVel(), dt)
 
-        a = 0.0
+        a = 0.0 # Tried adding a simple low-pass, not effective
         self._output = self._output * a + output * (1 - a)
 
     def _simulateStateSpace(self, dt):
@@ -66,7 +66,7 @@ class Car:
         self._state += xDot * dt
         self._acc = xDot[1, 0]
 
-    def update(self, dt, nextCar = None):
+    def update(self, dt, nextCar: "(Car | None)" = None):
         self._regulator(dt, nextCar)
         self._simulateStateSpace(dt)
 

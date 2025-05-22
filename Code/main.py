@@ -27,23 +27,48 @@ def main():
         car.update(dt, frontCar)
         dist[ix] = frontCar.getPos() - car.getPos()
 
-    if (False):
+    if (True):
+        plt.title("Position")
         plt.plot(t_values, car.logPos, label = "Back Car Position")
-        plt.plot(t_values, frontCar.logPos, label = "Front Car Position")
+        plt.plot(t_values, frontCar.logPos, label = "Lead Car Position")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Position (m)")
+
+        plt.legend()
+        plt.show()
 
     if (True):
-        plt.plot(t_values, np.array(dist) / 10.0, label = "Distance div 10")
+        plt.title("Distance between cars")
+        plt.plot(t_values, np.array(dist), label = "Distance")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Distance (m)")
+
+        print(f"Min dist: {min(dist)}")
+
+        #plt.legend()
+        plt.show()
 
     if (True):
         plt.plot(t_values, np.array(car.logAcc), label = "Back Car Acceleration")
 
-    if (True):
-        plt.plot(t_values, car.logVel, label = "Back Car Velocity")
-        plt.plot(t_values, frontCar.logVel, label = "Front Car Velocity")
-        # print(f"Max speed front car: {frontCar.logVel[-1]}")
+        plt.title("Acceleration of car")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Acceleration (m/s^2)")
 
-    plt.legend()
-    plt.show()
+        #plt.legend()
+        plt.show()
+
+    if (True):
+        plt.title("Velocity")
+        plt.plot(t_values, car.logVel, label = "Back Car Velocity")
+        plt.plot(t_values, frontCar.logVel, label = "Lead Car Velocity")
+        print(f"Max speed back car: {car.logVel[-1]}")
+
+        plt.xlabel("Time (s)")
+        plt.ylabel("Velocity (m/s)")
+
+        plt.legend()
+        plt.show()
 
 if __name__ == "__main__":
     main()

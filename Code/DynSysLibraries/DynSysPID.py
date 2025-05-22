@@ -3,21 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class PID:
-    def __init__(self, setpoint = 0, kp = 0, ki = 0, kd = 0, maxOutput = 5.0):
+    def __init__(self, setpoint = 0.0, kp = 0.0, ki = 0.0, kd = 0.0, maxOutput = 5.0):
         self.setpoint = setpoint
         self.kp = kp
         self.kd = kd
         self.ki = ki
 
-        self.prevError = 0
-        self.sumError = 0
+        self.prevError = 0.0
+        self.sumError = 0.0
 
-        
         self.maxGass = maxOutput
 
         self.isFirst = True
     
-    def update(self, value, dt):
+    def update(self, value: float, dt: float):
         error = self.setpoint - value
 
         if (self.isFirst):
@@ -26,7 +25,10 @@ class PID:
 
         self.sumError += error * dt
 
-        deltaError = (error - self.prevError) / dt
+        if (dt == 0):
+            deltaError = 0.0
+        else:
+            deltaError = (error - self.prevError) / dt
         self.prevError = error
 
         output = self.kp * error + deltaError * self.kd + self.sumError * self.ki
@@ -46,8 +48,8 @@ def main():
 
     time = 10 # seconds, 60FPS
     t_values = np.linspace(0, 10, 60 * time + 1)
-    y_values = [0] * (60 * time + 1)
-    pådrag = [0] * (60 * time + 1)
+    y_values = [0.0] * (60 * time + 1)
+    pådrag = [0.0] * (60 * time + 1)
 
 
     for ix in range(1, len(y_values)):
@@ -55,7 +57,7 @@ def main():
             pid.setpoint = 2.0
         
         prevY = y_values[ix - 1]
-        speed = pid.update(prevY)
+        speed = pid.update(prevY, 0.166)
         pådrag[ix] = speed
         newValue = (prevY + speed * (1 / 60)) * 0.1 + (prevY * 0.9)
         y_values[ix] = newValue
